@@ -453,6 +453,8 @@ body {
     margin-top: 30px;
 }
 
+
+
 .modal {
     display: none;
     position: fixed;
@@ -466,6 +468,10 @@ body {
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(5px);
+}
+
+.modal:target {
+    display: block;
 }
 
 .modal-content {

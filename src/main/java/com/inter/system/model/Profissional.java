@@ -11,7 +11,7 @@ import java.util.List;
 public class Profissional extends Usuario {
 
     @NotNull
-    @Column(name = "salario_fixo", nullable = false)
+    @Column(name = "salarioFixo", nullable = false)
     private BigDecimal salarioFixo;
 
     @NotNull

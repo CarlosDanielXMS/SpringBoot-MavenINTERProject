@@ -34,7 +34,7 @@
                     <td th:text="${c.telefone}">(11) 99999‑9999</td>
                     <td th:text="${c.email}">email@ex.com</td>
                     <td>
-                        <span th:classappend="${c.status==1}?'status-active':'status-inactive'"
+                        <span class="status-badge" th:classappend="${c.status==1}?'status-active':'status-inactive'"
                               th:text="${c.status==1}?'Ativo':'Inativo'">Ativo</span>
                     </td>
                     <td class="actions">

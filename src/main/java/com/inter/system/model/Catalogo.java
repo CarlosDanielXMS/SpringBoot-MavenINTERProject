@@ -26,7 +26,7 @@ public class Catalogo {
     private java.math.BigDecimal valor;
 
     @Min(1)
-    @Column(name = "tempo_medio")
+    @Column(name = "tempoMedio")
     private Integer tempoMedio;
 
     @NotNull

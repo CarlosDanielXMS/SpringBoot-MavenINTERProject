@@ -5,9 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "usuario")
-@Inheritance(strategy = InheritanceType.JOINED)
+@MappedSuperclass
 public abstract class Usuario implements Serializable {
 
     @Id
@@ -37,7 +35,7 @@ public abstract class Usuario implements Serializable {
 
     // getters & setters
     public Integer getId() { return id; }
-    protected void setId(Integer id) { this.id = id; }
+    public void setId(Integer id) { this.id = id; }
 
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }

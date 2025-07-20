@@ -11,28 +11,35 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/profissionais")
 public class ProfissionalController {
 
-    private final ProfissionalService profissionalService;
+    private final ProfissionalService service;
 
-    public ProfissionalController(ProfissionalService profissionalService) {
-        this.profissionalService = profissionalService;
+    public ProfissionalController(ProfissionalService service) {
+        this.service = service;
     }
 
     @GetMapping
-    public String listar(Model model) {
-        model.addAttribute("activePage", "profissionais");
-        model.addAttribute("profissionais", profissionalService.listarTodos());  // :contentReference[oaicite:23]{index=23}
+    public String index(Model model) {
+        model.addAttribute("profissionais", service.listarTodos());
+        model.addAttribute("novoProfissional", new Profissional());
         return "profissionais";
     }
 
     @PostMapping("/salvar")
-    public String salvar(@ModelAttribute Profissional profissional) {
-        profissionalService.salvar(profissional);  // :contentReference[oaicite:24]{index=24}
+    public String salvar(@ModelAttribute("novoProfissional") Profissional prof) {
+        service.salvar(prof);
         return "redirect:/profissionais";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Integer id, Model model) {
+        model.addAttribute("profissionais", service.listarTodos());
+        model.addAttribute("novoProfissional", service.buscarPorId(id));
+        return "profissionais";
     }
 
     @GetMapping("/excluir/{id}")
     public String excluir(@PathVariable Integer id) {
-        profissionalService.excluir(id);  // :contentReference[oaicite:25]{index=25}
+        service.excluir(id);
         return "redirect:/profissionais";
     }
 }

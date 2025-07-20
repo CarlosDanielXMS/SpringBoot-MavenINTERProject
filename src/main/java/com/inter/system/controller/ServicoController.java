@@ -11,28 +11,35 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/servicos")
 public class ServicoController {
 
-    private final ServicoService servicoService;
+    private final ServicoService service;
 
-    public ServicoController(ServicoService servicoService) {
-        this.servicoService = servicoService;
+    public ServicoController(ServicoService service) {
+        this.service = service;
     }
 
     @GetMapping
-    public String listar(Model model) {
-        model.addAttribute("activePage", "servicos");
-        model.addAttribute("servicos", servicoService.listarTodos());  // :contentReference[oaicite:26]{index=26}
+    public String index(Model model) {
+        model.addAttribute("servicos", service.listarTodos());
+        model.addAttribute("novoServico", new Servico());
         return "servicos";
     }
 
     @PostMapping("/salvar")
-    public String salvar(@ModelAttribute Servico servico) {
-        servicoService.salvar(servico);  // :contentReference[oaicite:27]{index=27}
+    public String salvar(@ModelAttribute("novoServico") Servico servico) {
+        service.salvar(servico);
         return "redirect:/servicos";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Integer id, Model model) {
+        model.addAttribute("servicos", service.listarTodos());
+        model.addAttribute("novoServico", service.buscarPorId(id));
+        return "servicos";
     }
 
     @GetMapping("/excluir/{id}")
     public String excluir(@PathVariable Integer id) {
-        servicoService.excluir(id);  // :contentReference[oaicite:28]{index=28}
+        service.excluir(id);
         return "redirect:/servicos";
     }
 }

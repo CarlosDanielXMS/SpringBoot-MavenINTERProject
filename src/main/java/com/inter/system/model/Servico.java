@@ -25,7 +25,7 @@ public class Servico {
 
     @NotNull
     @Min(1)
-    @Column(name = "tempo_medio", nullable = false)
+    @Column(name = "tempoMedio", nullable = false)
     private Integer tempoMedio;
 
     @NotNull

@@ -1,0 +1,46 @@
+<!-- src/main/resources/templates/profissionais.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8" /><title>Profissionais</title></head>
+<body>
+  <h1>Profissionais</h1>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>ID</th><th>Nome</th><th>E‑mail</th><th>Telefone</th><th>Status</th><th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="p : ${profissionais}">
+        <td th:text="${p.id}"></td>
+        <td th:text="${p.nome}"></td>
+        <td th:text="${p.email}"></td>
+        <td th:text="${p.telefone}"></td>
+        <td th:text="${p.status == 1 ? 'Ativo' : 'Inativo'}"></td>
+        <td>
+          <a th:href="@{'/profissionais/editar/' + ${p.id}}">Editar</a> |
+          <a th:href="@{'/profissionais/excluir/' + ${p.id}}"
+             onclick="return confirm('Excluir profissional?');">Excluir</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 th:text="${novoProfissional.id != null} ? 'Editar Profissional' : 'Novo Profissional'"></h2>
+  <form th:action="@{/profissionais/salvar}" th:object="${novoProfissional}" method="post">
+    <input type="hidden" th:if="${novoProfissional.id!=null}" th:field="*{id}" />
+    <label>Nome: <input type="text" th:field="*{nome}" /></label><br/>
+    <label>E‑mail: <input type="email" th:field="*{email}" /></label><br/>
+    <label>Senha: <input type="password" th:field="*{senha}" /></label><br/>
+    <label>Telefone: <input type="text" th:field="*{telefone}" /></label><br/>
+    <label>Status:
+      <select th:field="*{status}">
+        <option th:value="1">Ativo</option>
+        <option th:value="0">Inativo</option>
+      </select>
+    </label><br/>
+    <button type="submit">Salvar</button>
+  </form>
+</body>
+</html>

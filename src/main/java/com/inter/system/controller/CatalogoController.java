@@ -4,6 +4,8 @@ package com.inter.system.controller;
 import com.inter.system.model.Catalogo;
 import com.inter.system.model.CatalogoId;
 import com.inter.system.service.CatalogoService;
+import com.inter.system.service.ProfissionalService;
+import com.inter.system.service.ServicoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,37 +14,37 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/catalogos")
 public class CatalogoController {
 
-    private final CatalogoService catalogoService;
+    private final CatalogoService service;
+    private final ProfissionalService profissionalService;
+    private final ServicoService servicoService;
 
-    public CatalogoController(CatalogoService catalogoService) {
-        this.catalogoService = catalogoService;
+    public CatalogoController(CatalogoService service,
+                              ProfissionalService profissionalService,
+                              ServicoService servicoService) {
+        this.service = service;
+        this.profissionalService = profissionalService;
+        this.servicoService = servicoService;
     }
 
     @GetMapping
-    public String listar(Model model) {
-        model.addAttribute("catalogos", catalogoService.listarTodos());  // :contentReference[oaicite:35]{index=35}
+    public String index(Model model) {
+        model.addAttribute("catalogos", service.listarTodos());
+        model.addAttribute("profissionais", profissionalService.listarTodos());
+        model.addAttribute("servicos", servicoService.listarTodos());
+        model.addAttribute("novoCatalogo", new Catalogo());
         return "catalogos";
     }
 
     @PostMapping("/salvar")
-    public String salvar(
-            @RequestParam Integer profissionalId,
-            @RequestParam Integer servicoId,
-            @ModelAttribute Catalogo catForm
-    ) {
-        CatalogoId id = new CatalogoId(profissionalId, servicoId);
-        catForm.setId(id);
-        catalogoService.salvar(catForm);  // :contentReference[oaicite:36]{index=36}
+    public String salvar(@ModelAttribute("novoCatalogo") Catalogo cat) {
+        service.salvar(cat);
         return "redirect:/catalogos";
     }
 
-    @GetMapping("/excluir")
-    public String excluir(
-            @RequestParam Integer profissionalId,
-            @RequestParam Integer servicoId
-    ) {
-        CatalogoId id = new CatalogoId(profissionalId, servicoId);
-        catalogoService.excluir(id);  // :contentReference[oaicite:37]{index=37}
+    @GetMapping("/excluir/{profissionalId}/{servicoId}")
+    public String excluir(@PathVariable Integer profissionalId,
+                          @PathVariable Integer servicoId) {
+        service.excluir(new CatalogoId(profissionalId, servicoId));
         return "redirect:/catalogos";
     }
 }
