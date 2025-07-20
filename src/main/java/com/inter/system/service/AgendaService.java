@@ -1,12 +1,11 @@
-// AgendaService.java
+// src/main/java/com/inter/system/service/AgendaService.java
 package com.inter.system.service;
 
-import com.inter.system.model.Agenda;
-import com.inter.system.repository.AgendaRepository;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
+import com.inter.system.model.Agenda;
+import com.inter.system.repository.AgendaRepository;
 
 @Service
 @Transactional
@@ -27,12 +26,7 @@ public class AgendaService {
                    .orElseThrow(() -> new IllegalArgumentException("Agenda não encontrada: " + id));
     }
 
-    public Agenda criar(Agenda agenda) {
-        return repo.save(agenda);
-    }
-
-    public Agenda atualizar(Agenda agenda) {
-        buscarPorId(agenda.getId());
+    public Agenda salvar(Agenda agenda) {
         return repo.save(agenda);
     }
 

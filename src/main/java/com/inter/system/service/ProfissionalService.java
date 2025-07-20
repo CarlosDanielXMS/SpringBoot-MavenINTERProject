@@ -1,12 +1,11 @@
-// ProfissionalService.java
+// src/main/java/com/inter/system/service/ProfissionalService.java
 package com.inter.system.service;
 
-import com.inter.system.model.Profissional;
-import com.inter.system.repository.ProfissionalRepository;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
+import com.inter.system.model.Profissional;
+import com.inter.system.repository.ProfissionalRepository;
 
 @Service
 @Transactional
@@ -27,12 +26,7 @@ public class ProfissionalService {
                    .orElseThrow(() -> new IllegalArgumentException("Profissional não encontrado: " + id));
     }
 
-    public Profissional criar(Profissional profissional) {
-        return repo.save(profissional);
-    }
-
-    public Profissional atualizar(Profissional profissional) {
-        buscarPorId(profissional.getId());
+    public Profissional salvar(Profissional profissional) {
         return repo.save(profissional);
     }
 

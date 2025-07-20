@@ -1,19 +1,14 @@
+// src/main/java/com/inter/system/model/Usuario.java
 package com.inter.system.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import java.io.Serializable;
 
-@MappedSuperclass
-public abstract class Usuario {
+@Entity
+@Table(name = "usuario")
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Usuario implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,23 +31,26 @@ public abstract class Usuario {
     private String senha;
 
     @NotNull
-    @Min(1)
-    @Max(2)
+    @Min(1) @Max(2)
     @Column(nullable = false)
-    private Short status;   
-    
-    protected void setId(Integer id) { this.id = id; }
-    public void setNome(String nome) { this.nome = nome; }
-    public void setTelefone(String telefone) { this.telefone = telefone; }
-    public void setEmail(String email) { this.email = email; }
-    public void setSenha(String senha) { this.senha = senha; }
-    public void setStatus(Short status) { this.status = status; }
-    
+    private Short status;
+
+    // getters & setters
     public Integer getId() { return id; }
+    protected void setId(Integer id) { this.id = id; }
+
     public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+
     public String getTelefone() { return telefone; }
-    public Short getStatus() { return status; }
+    public void setTelefone(String telefone) { this.telefone = telefone; }
+
     public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
     public String getSenha() { return senha; }
-    
+    public void setSenha(String senha) { this.senha = senha; }
+
+    public Short getStatus() { return status; }
+    public void setStatus(Short status) { this.status = status; }
 }

@@ -1,57 +1,55 @@
+// src/main/java/com/inter/system/model/Catalogo.java
 package com.inter.system.model;
 
-import java.math.BigDecimal;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "Catalogo")
-@IdClass(CatalogoId.class)
 public class Catalogo {
 
-    @Id
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "idProfissional", referencedColumnName = "id")
+    @EmbeddedId
+    private CatalogoId id;
+
+    @MapsId("idProfissional")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idProfissional", nullable = false)
     private Profissional profissional;
 
-    @Id
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "idServico", referencedColumnName = "id")
+    @MapsId("idServico")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idServico", nullable = false)
     private Servico servico;
 
-    @NotNull
     @DecimalMin("0.01")
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal valor;
+    @Column
+    private java.math.BigDecimal valor;
 
-    @NotNull
     @Min(1)
-    @Column(nullable = false)
+    @Column(name = "tempo_medio")
     private Integer tempoMedio;
 
     @NotNull
-    @Min(1)
-    @Max(2)
+    @Min(1) @Max(2)
     @Column(nullable = false)
     private Short status;
 
-    public void setValor(BigDecimal valor) { this.valor = valor; }
-    public void setTempoMedio(Integer tempoMedio) { this.tempoMedio = tempoMedio; }
-    public void setStatus(Short status) { this.status = status; }
+    // getters & setters
+    public CatalogoId getId() { return id; }
+    public void setId(CatalogoId id) { this.id = id; }
 
     public Profissional getProfissional() { return profissional; }
+    public void setProfissional(Profissional profissional) { this.profissional = profissional; }
+
     public Servico getServico() { return servico; }
-    public BigDecimal getValor() { return valor; }
+    public void setServico(Servico servico) { this.servico = servico; }
+
+    public java.math.BigDecimal getValor() { return valor; }
+    public void setValor(java.math.BigDecimal valor) { this.valor = valor; }
+
     public Integer getTempoMedio() { return tempoMedio; }
+    public void setTempoMedio(Integer tempoMedio) { this.tempoMedio = tempoMedio; }
+
     public Short getStatus() { return status; }
+    public void setStatus(Short status) { this.status = status; }
 }

@@ -1,12 +1,12 @@
-// ServicoAgendadoService.java
+// src/main/java/com/inter/system/service/ServicoAgendadoService.java
 package com.inter.system.service;
 
-import com.inter.system.model.ServicoAgendado;
-import com.inter.system.model.ServicoAgendadoId;
-import com.inter.system.repository.ServicoAgendadoRepository;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.inter.system.model.ServicoAgendado;
+import com.inter.system.repository.ServicoAgendadoRepository;
+import com.inter.system.model.ServicoAgendadoId;
 
 @Service
 @Transactional
@@ -18,25 +18,20 @@ public class ServicoAgendadoService {
         this.repo = repo;
     }
 
-    // public List<ServicoAgendado> listarPorAgenda(Integer idAgenda) {
-    //     return repo.findByAgendaId(idAgenda);
-    // }
-
-    public ServicoAgendado buscarPorId(Integer idAgenda, Integer idServico, Integer idProfissional) {
-        return repo.findById(new ServicoAgendadoId(idAgenda, idServico, idProfissional))
-                   .orElseThrow(() -> new IllegalArgumentException("Serviço Agendado não encontrado"));
+    public List<ServicoAgendado> listarTodos() {
+        return repo.findAll();
     }
 
-    public ServicoAgendado criar(ServicoAgendado sa) {
+    public ServicoAgendado buscarPorId(ServicoAgendadoId id) {
+        return repo.findById(id)
+                   .orElseThrow(() -> new IllegalArgumentException("Serviço Agendado não encontrado: " + id));
+    }
+
+    public ServicoAgendado salvar(ServicoAgendado sa) {
         return repo.save(sa);
     }
 
-    public ServicoAgendado atualizar(ServicoAgendado sa) {
-        buscarPorId(sa.getAgenda().getId(), sa.getServico().getId(), sa.getProfissional().getId());
-        return repo.save(sa);
-    }
-
-    public void excluir(Integer idAgenda, Integer idServico, Integer idProfissional) {
-        repo.deleteById(new ServicoAgendadoId(idAgenda, idServico, idProfissional));
+    public void excluir(ServicoAgendadoId id) {
+        repo.deleteById(id);
     }
 }

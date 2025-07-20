@@ -1,22 +1,10 @@
+// src/main/java/com/inter/system/model/Servico.java
 package com.inter.system.model;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Servico")
@@ -32,36 +20,48 @@ public class Servico {
 
     @NotNull
     @DecimalMin("0.01")
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false)
     private BigDecimal valor;
 
     @NotNull
     @Min(1)
-    @Column(nullable = false)
+    @Column(name = "tempo_medio", nullable = false)
     private Integer tempoMedio;
 
     @NotNull
-    @Min(1)
-    @Max(2)
+    @Min(1) @Max(2)
     @Column(nullable = false)
     private Short status;
 
     @OneToMany(mappedBy = "servico", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ServicoAgendado> servicosAgendados = new ArrayList<>();
+    private List<ServicoAgendado> servicosAgendados;
 
     @OneToMany(mappedBy = "servico", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Catalogo> catalogos = new ArrayList<>();
+    private List<Catalogo> catalogos;
 
+    // getters & setters
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
+
+    public String getDescricao() { return descricao; }
     public void setDescricao(String descricao) { this.descricao = descricao; }
+
+    public BigDecimal getValor() { return valor; }
     public void setValor(BigDecimal valor) { this.valor = valor; }
+
+    public Integer getTempoMedio() { return tempoMedio; }
     public void setTempoMedio(Integer tempoMedio) { this.tempoMedio = tempoMedio; }
+
+    public Short getStatus() { return status; }
     public void setStatus(Short status) { this.status = status; }
 
-    public Integer getId() { return id; }
-    public String getDescricao() { return descricao; }
-    public BigDecimal getValor() { return valor; }
-    public Integer getTempoMedio() { return tempoMedio; }
-    public Short getStatus() { return status; }
     public List<ServicoAgendado> getServicosAgendados() { return servicosAgendados; }
+    public void setServicosAgendados(List<ServicoAgendado> servicosAgendados) {
+        this.servicosAgendados = servicosAgendados;
+    }
+
     public List<Catalogo> getCatalogos() { return catalogos; }
+    public void setCatalogos(List<Catalogo> catalogos) {
+        this.catalogos = catalogos;
+    }
 }

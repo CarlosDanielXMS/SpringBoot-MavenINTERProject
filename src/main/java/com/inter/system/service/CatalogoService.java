@@ -1,13 +1,12 @@
-// CatalogoService.java
+// src/main/java/com/inter/system/service/CatalogoService.java
 package com.inter.system.service;
 
-import com.inter.system.model.Catalogo;
-import com.inter.system.model.CatalogoId;
-import com.inter.system.repository.CatalogoRepository;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
+import com.inter.system.model.Catalogo;
+import com.inter.system.repository.CatalogoRepository;
+import com.inter.system.model.CatalogoId;
 
 @Service
 @Transactional
@@ -23,21 +22,16 @@ public class CatalogoService {
         return repo.findAll();
     }
 
-    public Catalogo buscarPorId(Integer idProfissional, Integer idServico) {
-        return repo.findById(new CatalogoId(idProfissional, idServico))
-                   .orElseThrow(() -> new IllegalArgumentException("Catálogo não encontrado"));
+    public Catalogo buscarPorId(CatalogoId id) {
+        return repo.findById(id)
+                   .orElseThrow(() -> new IllegalArgumentException("Catálogo não encontrado: " + id));
     }
 
-    public Catalogo criar(Catalogo catalogo) {
+    public Catalogo salvar(Catalogo catalogo) {
         return repo.save(catalogo);
     }
 
-    public Catalogo atualizar(Catalogo catalogo) {
-        buscarPorId(catalogo.getProfissional().getId(), catalogo.getServico().getId());
-        return repo.save(catalogo);
-    }
-
-    public void excluir(Integer idProfissional, Integer idServico) {
-        repo.deleteById(new CatalogoId(idProfissional, idServico));
+    public void excluir(CatalogoId id) {
+        repo.deleteById(id);
     }
 }

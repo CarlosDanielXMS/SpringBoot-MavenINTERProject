@@ -1,45 +1,43 @@
+// src/main/java/com/inter/system/model/Profissional.java
 package com.inter.system.model;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Profissional")
 public class Profissional extends Usuario {
 
     @NotNull
-    @DecimalMin("0.01")
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(name = "salario_fixo", nullable = false)
     private BigDecimal salarioFixo;
 
     @NotNull
-    @DecimalMin("0.00")
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal comissao;
 
     @OneToMany(mappedBy = "profissional", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ServicoAgendado> servicosAgendados = new ArrayList<>();
+    private List<ServicoAgendado> servicosAgendados;
 
     @OneToMany(mappedBy = "profissional", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Catalogo> catalogos = new ArrayList<>();
-    
-    public void setSalarioFixo(BigDecimal salarioFixo) { this.salarioFixo = salarioFixo; }
-    public void setComissao(BigDecimal comissao) { this.comissao = comissao; }
-    public void setServicosAgendados(List<ServicoAgendado> servicosAgendados) { this.servicosAgendados = servicosAgendados; }
-    public void setCatalogos(List<Catalogo> catalogos) { this.catalogos = catalogos; }
-    
-    public BigDecimal getSalarioFixo() { return salarioFixo; }
-    public BigDecimal getComissao() { return comissao; }
-    public List<ServicoAgendado> getServicosAgendados() { return servicosAgendados; }
-    public List<Catalogo> getCatalogos() { return catalogos; }
+    private List<Catalogo> catalogos;
 
+    // getters & setters
+    public BigDecimal getSalarioFixo() { return salarioFixo; }
+    public void setSalarioFixo(BigDecimal salarioFixo) { this.salarioFixo = salarioFixo; }
+
+    public BigDecimal getComissao() { return comissao; }
+    public void setComissao(BigDecimal comissao) { this.comissao = comissao; }
+
+    public List<ServicoAgendado> getServicosAgendados() { return servicosAgendados; }
+    public void setServicosAgendados(List<ServicoAgendado> servicosAgendados) {
+        this.servicosAgendados = servicosAgendados;
+    }
+
+    public List<Catalogo> getCatalogos() { return catalogos; }
+    public void setCatalogos(List<Catalogo> catalogos) {
+        this.catalogos = catalogos;
+    }
 }

@@ -1,12 +1,11 @@
-// ServicoService.java
+// src/main/java/com/inter/system/service/ServicoService.java
 package com.inter.system.service;
 
-import com.inter.system.model.Servico;
-import com.inter.system.repository.ServicoRepository;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
+import com.inter.system.model.Servico;
+import com.inter.system.repository.ServicoRepository;
 
 @Service
 @Transactional
@@ -27,12 +26,7 @@ public class ServicoService {
                    .orElseThrow(() -> new IllegalArgumentException("Serviço não encontrado: " + id));
     }
 
-    public Servico criar(Servico servico) {
-        return repo.save(servico);
-    }
-
-    public Servico atualizar(Servico servico) {
-        buscarPorId(servico.getId());
+    public Servico salvar(Servico servico) {
         return repo.save(servico);
     }
 

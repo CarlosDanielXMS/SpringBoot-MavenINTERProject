@@ -1,12 +1,11 @@
-// ClienteService.java
+// src/main/java/com/inter/system/service/ClienteService.java
 package com.inter.system.service;
 
-import com.inter.system.model.Cliente;
-import com.inter.system.repository.ClienteRepository;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
+import com.inter.system.model.Cliente;
+import com.inter.system.repository.ClienteRepository;
 
 @Service
 @Transactional
@@ -27,12 +26,7 @@ public class ClienteService {
                    .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado: " + id));
     }
 
-    public Cliente criar(Cliente cliente) {
-        return repo.save(cliente);
-    }
-
-    public Cliente atualizar(Cliente cliente) {
-        buscarPorId(cliente.getId());
+    public Cliente salvar(Cliente cliente) {
         return repo.save(cliente);
     }
 
