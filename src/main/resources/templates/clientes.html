@@ -1,0 +1,108 @@
+<!-- src/main/resources/templates/clientes.html -->
+<!DOCTYPE html>
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{base}">
+<head>
+    <title>Clientes</title>
+    <style>
+      .modal { display: none; justify-content: center; align-items: center; }
+      .modal:target { display: flex; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); }
+    </style>
+</head>
+<body>
+  <div layout:fragment="content">
+
+    <div class="module-header">
+      <h2>Clientes</h2>
+      <a href="#cliente-modal" class="btn btn-primary">
+        <span class="material-icons">add</span> Novo Cliente
+      </a>
+    </div>
+
+    <div class="module-controls">
+      <input type="text" placeholder="Buscar cliente por nome ou email..." />
+      <select>
+        <option value="all">Todos</option>
+        <option value="1">Ativos</option>
+        <option value="0">Inativos</option>
+      </select>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Telefone</th>
+          <th>E-mail</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="c : ${clientes}">
+          <td th:text="${c.id}">1</td>
+          <td th:text="${c.nome}">Fulano</td>
+          <td th:text="${c.telefone}">(00)0000‑0000</td>
+          <td th:text="${c.email}">fulano@gmail.com</td>
+          <td>
+            <!-- <span th:text="${c.status==1?'Ativo':'Inativo'}"
+                  th:classappend="${c.status==1} ? ' status-active' : ' status-inactive'">
+            </span> -->
+          </td>
+          <td class="actions">
+            <!-- <a th:href="'#cliente-modal?edit=' + ${c.id}" class="btn btn-outline">
+              <span class="material-icons">edit</span>
+            </a>
+            <a th:href="@{'/clientes/delete/' + ${c.id}}" class="btn btn-icon-only">
+              <span class="material-icons">delete</span>
+            </a> -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Modal de Cliente
+    <div id="cliente-modal" class="modal">
+      <div class="modal-content">
+        <a href="#" class="close-button">&times;</a>
+        <h3 th:text="${#strings.contains(#httpServletRequest.getQueryString(), 'edit') ? 'Editar Cliente' : 'Cadastrar Cliente'}">
+          Cadastrar Cliente
+        </h3>
+        <form th:action="@{/clientes}" method="post">
+          <input type="hidden" name="id"
+                 th:value="${#strings.contains(#httpServletRequest.getQueryString(), 'edit') ? ${#httpServletRequest.getParameter('edit')} : ''}" />
+
+          <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" name="nome" id="nome"
+                   th:value="${c != null ? c.nome : ''}" required />
+          </div>
+          <div class="form-group">
+            <label for="telefone">Telefone</label>
+            <input type="text" name="telefone" id="telefone"
+                   th:value="${c != null ? c.telefone : ''}" required />
+          </div>
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" name="email" id="email"
+                   th:value="${c != null ? c.email : ''}" required />
+          </div>
+          <div class="form-group">
+            <label for="senha">Senha</label>
+            <input type="password" name="senha" id="senha" placeholder="Deixe em branco para manter" />
+          </div>
+
+          <div class="form-actions">
+            <a href="#" class="btn btn-outline">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div> -->
+
+  </div>
+</body>
+</html>
