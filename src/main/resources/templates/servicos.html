@@ -1,0 +1,105 @@
+<!-- src/main/resources/templates/servicos.html -->
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{base}">
+
+<head>
+    <title>Serviços</title>
+</head>
+
+<body>
+    <section layout:fragment="content">
+        <div class="module-header">
+            <h2>Serviços</h2>
+            <a class="btn btn-primary" th:href="@{/servicos/novo} + '#servico-modal'">
+                <span class="material-icons">add</span> Novo Serviço
+            </a>
+        </div>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                    <th>Tempo Médio</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="s : ${servicos}">
+                    <td th:text="${s.descricao}">-</td>
+                    <td th:text="${#numbers.formatDecimal(s.valor, 2, 2)}">-</td>
+                    <td th:text="${s.tempoMedio}">-</td>
+                    <td class="actions">
+                        <a class="btn-icon-only"
+                           th:href="@{/servicos/{id}/editar(id=${s.id})} + '#servico-modal'"
+                           title="Editar">
+                            <span class="material-icons">edit</span>
+                        </a>
+                        <a th:href="@{/servicos/{id}/excluir(id=${s.id})}"
+                           class="btn-icon-only"
+                           onclick="return confirm('Tem certeza que deseja inativar este serviço?');"
+                           title="Excluir">
+                            <span class="material-icons cancel">delete</span>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="servico-modal" class="modal" th:object="${novoServico}">
+            <div class="modal-content">
+                <h3 id="modal-title"
+                    th:text="${novoServico.id} != null ? 'Editar Serviço' : 'Cadastrar Serviço'">
+                    Cadastrar Serviço
+                </h3>
+                <form th:object="${novoServico}"
+                      th:action="${novoServico.id} != null
+                                 ? @{/servicos/{id}(id=${novoServico.id})}
+                                 : @{/servicos}"
+                      method="post">
+
+                    <input type="hidden"
+                           th:if="${novoServico.id != null}"
+                           name="_method" value="put" />
+
+                    <div class="form-group">
+                        <label for="descricao">Descrição</label>
+                        <input id="descricao" class="form-control" type="text"
+                               th:field="*{descricao}"
+                               placeholder="Descrição" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="valor">Valor</label>
+                        <input id="valor" class="form-control" type="number" step="0.01"
+                               th:field="*{valor}"
+                               placeholder="Valor" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tempoMedio">Tempo Médio (min)</label>
+                        <input id="tempoMedio" class="form-control" type="number"
+                               th:field="*{tempoMedio}"
+                               placeholder="Tempo Médio" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" class="form-control"
+                                th:field="*{status}">
+                            <option value="1">Ativo</option>
+                            <option value="2">Inativo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <a class="btn btn-outline" th:href="@{/servicos}">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

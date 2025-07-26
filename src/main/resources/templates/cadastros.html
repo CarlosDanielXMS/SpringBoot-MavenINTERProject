@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{base}">
+
+<head>
+    <title>Cadastros</title>
+    <link rel="stylesheet" th:href="@{/css/cadastros.css}" />
+</head>
+
+<body>
+    <section layout:fragment="content">
+        <div class="module-header">
+            <nav class="tab-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/}"
+                            th:classappend="${activeTab=='clientes'} ? ' active' : ''">
+                            <span>Clientes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/}"
+                            th:classappend="${activeTab=='profissionais'} ? ' active' : ''">
+                            <span>Profissionais</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/}"
+                            th:classappend="${activeTab=='profissionais'} ? ' active' : ''">
+                            <span>Profissionais</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+</body>
+
+</html>

@@ -1,88 +1,118 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{base}">
+
 <head>
     <title>Clientes</title>
 </head>
+
 <body>
     <section layout:fragment="content">
         <div class="module-header">
             <h2>Clientes</h2>
-            <a class="btn btn-primary" th:href="@{/clientes/novo}">
+            <a class="btn btn-primary" th:href="@{/clientes/novo} + '#cliente-modal'">
                 <span class="material-icons">add</span> Novo Cliente
             </a>
         </div>
 
-        <div class="module-controls">
+        <!-- <div class="module-controls">
             <input type="text" id="search-cliente" placeholder="Buscar cliente por nome ou email...">
             <select id="filter-cliente-status">
                 <option value="all">Todos</option>
                 <option value="1">Ativos</option>
                 <option value="0">Inativos</option>
             </select>
-        </div>
+        </div> -->
 
         <table class="data-table">
             <thead>
                 <tr>
-                    <th>ID</th><th>Nome</th><th>Telefone</th><th>E-mail</th><th>Status</th><th>Ações</th>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>E-mail</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="c : ${clientes}">
-                    <td th:text="${c.id}">1</td>
-                    <td th:text="${c.nome}">Nome</td>
-                    <td th:text="${c.telefone}">(11) 99999‑9999</td>
-                    <td th:text="${c.email}">email@ex.com</td>
-                    <td>
-                        <span class="status-badge" th:classappend="${c.status==1}?'status-active':'status-inactive'"
-                              th:text="${c.status==1}?'Ativo':'Inativo'">Ativo</span>
-                    </td>
+                    <td th:text="${c.nome}">-</td>
+                    <td th:text="${c.telefone}">-</td>
+                    <td th:text="${c.email}">-</td>
                     <td class="actions">
-                        <a th:href="@{/clientes/{id}/editar(id=${c.id})}"
-                           class="btn-icon-only"><span class="material-icons">edit</span></a>
+                        <a class="btn-icon-only" th:href="@{/clientes/{id}/editar(id=${c.id})} + '#cliente-modal'"
+                            title="Editar">
+                            <span class="material-icons">edit</span>
+                        </a>
+
                         <a th:href="@{/clientes/{id}/excluir(id=${c.id})}"
-                           class="btn-icon-only"><span class="material-icons cancel">delete</span></a>
+                            class="btn-icon-only"
+                            onclick="return confirm('Tem certeza que deseja excluir este cliente?');">
+                            <span class="material-icons cancel">delete</span>
+                        </a>
                     </td>
                 </tr>
             </tbody>
         </table>
 
-        <div id="cliente-modal" class="modal">
-                <div class="modal-content">
-                    <span class="close-button">&times;</span>
-                    <h3 id="modal-title">Cadastrar Cliente</h3>
-                    <form id="cliente-form">
-                        <input type="hidden" id="cliente-id">
-                        <div class="form-group">
-                            <label for="cliente-nome">Nome</label>
-                            <input type="text" id="cliente-nome" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="cliente-telefone">Telefone</label>
-                            <input type="text" id="cliente-telefone" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="cliente-email">E-mail</label>
-                            <input type="email" id="cliente-email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="cliente-senha">Senha (deixe em branco para manter)</label>
-                            <input type="password" id="cliente-senha">
-                        </div>
-                        <div class="form-group">
-                            <label for="cliente-status">Status</label>
-                            <select id="cliente-status">
-                                <option value="1">Ativo</option>
-                                <option value="0">Inativo</option>
-                            </select>
-                        </div>
-                        <div class="form-actions">
-                            <button type="button" class="btn btn-outline">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Salvar</button>
-                        </div>
-                    </form>
-                </div>
+        <div id="cliente-modal" class="modal" th:object="${novoCliente}">
+            <div class="modal-content">
+                <h3 id="modal-title" th:text="${novoCliente.id} != null ? 'Editar Cliente' : 'Cadastrar Cliente'">
+                    Cadastrar Cliente
+                </h3>
+                <form th:object="${novoCliente}"
+                      th:action="${novoCliente.id} != null
+                                 ? @{/clientes/{id}(id=${novoCliente.id})}
+                                 : @{/clientes}"
+                      method="post">
+                      
+                    <input type="hidden"
+                           th:if="${novoCliente.id != null}"
+                           name="_method" value="put" />
+
+                    <div class="form-group">
+                        <label for="nome">Nome</label>
+                        <input id="nome" class="form-control" type="text"
+                               th:field="*{nome}"
+                               placeholder="Nome" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input id="telefone" class="form-control" type="text"
+                               th:field="*{telefone}"
+                               placeholder="Telefone" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input id="email" class="form-control" type="email"
+                               th:field="*{email}"
+                               placeholder="Email" />
+                    </div>
+
+                    <div class="form-group" th:if="${novoCliente.id} == null">
+                        <label for="senha">Senha</label>
+                        <input id="senha" class="form-control" type="password"
+                               th:field="*{senha}"
+                               placeholder="Senha" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" class="form-control"
+                                th:field="*{status}">
+                            <option value="1">Ativo</option>
+                            <option value="0">Inativo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <a class="btn btn-outline" th:href="@{/clientes}">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
             </div>
+        </div>
     </section>
 </body>
+
 </html>

@@ -34,7 +34,6 @@ public class Catalogo {
     @Column(nullable = false)
     private Short status;
 
-    // getters & setters
     public CatalogoId getId() { return id; }
     public void setId(CatalogoId id) { this.id = id; }
 

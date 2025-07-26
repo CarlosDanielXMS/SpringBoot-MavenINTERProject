@@ -31,7 +31,7 @@
                 <div class="user-profile">
                     <img src="https://via.placeholder.com/40/2196F3/FFFFFF?text=JD" alt="User Avatar"
                          class="user-avatar">
-                    <span class="user-name">João D.</span>
+                    <span class="user-name"></span>
                     <span class="material-icons dropdown-arrow">arrow_drop_down</span>
                     <div class="profile-dropdown">
                         <a href="#">Meu Perfil</a>
@@ -66,24 +66,34 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="">
+                    <a class="sidebar-link" th:href="@{/profissionais}"
+                        th:classappend="${activePage=='profissionais'} ? ' active' : ''">
                         <span class="material-icons">work</span>
                         <span>Profissionais</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="">
+                    <a class="sidebar-link" th:href="@{/servicos}"
+                        th:classappend="${activePage=='servicos'} ? ' active' : ''">
                         <span class="material-icons">content_cut</span>
                         <span>Serviços</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="">
+                    <a class="sidebar-link" th:href="@{/catalogo}"
+                        th:classappend="${activePage=='catalogo'} ? ' active' : ''">
                         <span class="material-icons">list_alt</span>
                         <span>Catálogo</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
+                <!-- <li class="sidebar-item">
+                    <a class="sidebar-link" th:href="@{/cadastros}"
+                        th:classappend="${activePage=='cadastros'} ? ' active' : ''">
+                        <span class="material-icons">list_alt</span>
+                        <span>Cadastros</span>
+                    </a>
+                </li> -->
+                <!-- <li class="sidebar-item">
                     <a class="sidebar-link" href="">
                         <span class="material-icons">bar_chart</span>
                         <span>Relatórios</span>
@@ -94,7 +104,7 @@
                         <span class="material-icons">settings</span>
                         <span>Configurações</span>
                     </a>
-                </li>
+                </li> -->
             </ul>
         </nav>
 

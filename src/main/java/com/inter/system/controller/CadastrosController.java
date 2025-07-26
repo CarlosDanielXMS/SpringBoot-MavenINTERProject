@@ -11,32 +11,32 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/clientes")
-public class ClienteController {
+@RequestMapping("/cadastros")
+public class CadastrosController {
 
     private final ClienteService service;
 
-    public ClienteController(ClienteService service) {
+    public CadastrosController(ClienteService service) {
         this.service = service;
     }
 
     @ModelAttribute("activePage")
     public String activePage() {
-        return "clientes";
+        return "cadastros";
     }
 
     @GetMapping
     public String listar(Model model) {
         model.addAttribute("clientes", service.listarAtivos());
         model.addAttribute("novoCliente", new Cliente());
-        return "clientes";
+        return "cadastros";
     }
 
     @GetMapping("/novo")
     public String formNovo(Model model) {
         model.addAttribute("clientes", service.listarAtivos());
         model.addAttribute("novoCliente", new Cliente());
-        return "clientes";
+        return "cadastros";
     }
 
     @PostMapping
@@ -52,14 +52,14 @@ public class ClienteController {
         }
         service.criar(cliente);
         flash.addFlashAttribute("mensagem", "Cliente criado com sucesso!");
-        return "redirect:/clientes";
+        return "redirect:/cadastros";
     }
 
     @GetMapping("/{id}/editar")
     public String formEditar(@PathVariable Integer id, Model model) {
         model.addAttribute("clientes", service.listarAtivos());
         model.addAttribute("novoCliente", service.buscarPorId(id));
-        return "clientes";
+        return "cadastros";
     }
 
     @PutMapping("/{id}")
@@ -72,17 +72,17 @@ public class ClienteController {
     ) {
         if (br.hasErrors()) {
             model.addAttribute("clientes", service.listarAtivos());
-            return "clientes";
+            return "cadastros";
         }
         service.atualizar(id, cliente);
         flash.addFlashAttribute("mensagem", "Cliente atualizado com sucesso!");
-        return "redirect:/clientes";
+        return "redirect:/cadastros";
     }
 
     @GetMapping("/{id}/excluir")
     public String excluirViaGet(@PathVariable Integer id, RedirectAttributes flash) {
         service.inativar(id);
         flash.addFlashAttribute("mensagem", "Cliente inativado com sucesso!");
-        return "redirect:/clientes";
+        return "redirect:/cadastros";
     }
 }

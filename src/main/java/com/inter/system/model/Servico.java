@@ -39,7 +39,6 @@ public class Servico {
     @OneToMany(mappedBy = "servico", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Catalogo> catalogos;
 
-    // getters & setters
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 

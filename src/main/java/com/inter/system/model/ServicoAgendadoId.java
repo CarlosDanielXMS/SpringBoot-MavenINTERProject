@@ -20,7 +20,6 @@ public class ServicoAgendadoId implements Serializable {
         this.idProfissional = idProfissional;
     }
 
-    // getters, setters, equals()/hashCode()
     public Integer getIdAgenda() { return idAgenda; }
     public void setIdAgenda(Integer idAgenda) { this.idAgenda = idAgenda; }
 

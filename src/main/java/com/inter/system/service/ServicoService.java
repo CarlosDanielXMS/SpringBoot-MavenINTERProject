@@ -1,4 +1,3 @@
-// src/main/java/com/inter/system/service/ServicoService.java
 package com.inter.system.service;
 
 import java.util.List;
@@ -8,7 +7,7 @@ import com.inter.system.model.Servico;
 import com.inter.system.repository.ServicoRepository;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class ServicoService {
 
     private final ServicoRepository repo;
@@ -21,16 +20,34 @@ public class ServicoService {
         return repo.findAll();
     }
 
-    public Servico buscarPorId(Integer id) {
-        return repo.findById(id)
-                   .orElseThrow(() -> new IllegalArgumentException("Serviço não encontrado: " + id));
+    public List<Servico> listarAtivos() {
+        return repo.findByStatus((short)1);
     }
 
-    public Servico salvar(Servico servico) {
+    public Servico buscarPorId(Integer id) {
+        return repo.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Serviço não encontrado: " + id));
+    }
+
+    @Transactional
+    public Servico criar(Servico servico) {
+        servico.setStatus((short)1);
         return repo.save(servico);
     }
 
-    public void excluir(Integer id) {
-        repo.deleteById(id);
+    @Transactional
+    public Servico atualizar(Integer id, Servico dados) {
+        Servico existente = buscarPorId(id);
+        existente.setDescricao(dados.getDescricao());
+        existente.setValor(dados.getValor());
+        existente.setTempoMedio(dados.getTempoMedio());
+        return repo.save(existente);
+    }
+
+    @Transactional
+    public void inativar(Integer id) {
+        Servico existente = buscarPorId(id);
+        existente.setStatus((short)2);
+        repo.save(existente);
     }
 }

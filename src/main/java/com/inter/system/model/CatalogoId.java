@@ -18,7 +18,6 @@ public class CatalogoId implements Serializable {
         this.idServico = idServico;
     }
 
-    // getters, setters, equals()/hashCode()
     public Integer getIdProfissional() { return idProfissional; }
     public void setIdProfissional(Integer idProfissional) { this.idProfissional = idProfissional; }
 

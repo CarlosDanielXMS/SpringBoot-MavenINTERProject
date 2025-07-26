@@ -37,7 +37,6 @@ public class ServicoAgendado {
     @Column(nullable = false)
     private Short status;
 
-    // getters & setters
     public ServicoAgendadoId getId() { return id; }
     public void setId(ServicoAgendadoId id) { this.id = id; }
 

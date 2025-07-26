@@ -471,7 +471,7 @@ body {
 }
 
 .modal:target {
-    display: block;
+    display: flex;
 }
 
 .modal-content {

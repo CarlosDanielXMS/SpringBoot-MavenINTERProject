@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.inter.system.model.Catalogo;
-import com.inter.system.repository.CatalogoRepository;
 import com.inter.system.model.CatalogoId;
+import com.inter.system.repository.CatalogoRepository;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class CatalogoService {
 
     private final CatalogoRepository repo;
@@ -17,21 +17,40 @@ public class CatalogoService {
     public CatalogoService(CatalogoRepository repo) {
         this.repo = repo;
     }
-
+    
     public List<Catalogo> listarTodos() {
         return repo.findAll();
     }
 
-    public Catalogo buscarPorId(CatalogoId id) {
-        return repo.findById(id)
-                   .orElseThrow(() -> new IllegalArgumentException("Catálogo não encontrado: " + id));
+    public List<Catalogo> listarAtivos() {
+        return repo.findByStatus((short)1);
     }
 
-    public Catalogo salvar(Catalogo catalogo) {
+    public Catalogo buscarPorId(Integer idProfissional, Integer idServico) {
+        return repo.findById(new CatalogoId(idProfissional, idServico))
+                   .orElseThrow(() -> new IllegalArgumentException(
+                       "Catálogo não encontrado: " + idProfissional + ", " + idServico
+                   ));
+    }
+
+    @Transactional
+    public Catalogo criar(Catalogo catalogo) {
+        catalogo.setStatus((short)1);
         return repo.save(catalogo);
     }
 
-    public void excluir(CatalogoId id) {
-        repo.deleteById(id);
+    @Transactional
+    public Catalogo atualizar(Integer idProf, Integer idServ, Catalogo dados) {
+        Catalogo existente = buscarPorId(idProf, idServ);
+        existente.setValor(dados.getValor());
+        existente.setTempoMedio(dados.getTempoMedio());
+        return repo.save(existente);
+    }
+
+    @Transactional
+    public void inativar(Integer idProf, Integer idServ) {
+        Catalogo existente = buscarPorId(idProf, idServ);
+        existente.setStatus((short)2);
+        repo.save(existente);
     }
 }

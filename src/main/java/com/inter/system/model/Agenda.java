@@ -42,7 +42,6 @@ public class Agenda {
     @OneToMany(mappedBy = "agenda", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ServicoAgendado> servicosAgendados;
 
-    // getters & setters
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 

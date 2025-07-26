@@ -24,7 +24,6 @@ public class Profissional extends Usuario {
     @OneToMany(mappedBy = "profissional", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Catalogo> catalogos;
 
-    // getters & setters
     public BigDecimal getSalarioFixo() { return salarioFixo; }
     public void setSalarioFixo(BigDecimal salarioFixo) { this.salarioFixo = salarioFixo; }
 

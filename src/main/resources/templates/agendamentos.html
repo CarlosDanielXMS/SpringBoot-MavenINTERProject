@@ -10,13 +10,6 @@
 <body>
   <div layout:fragment="content">
 
-    <!-- CSS-only modal toggle via :target -->
-    <style>
-      /* mantém a modal oculta até que seu id seja alvo de um fragmento (#agendamento-modal) */
-      .modal { display: none; }
-      .modal:target { display: flex; }
-    </style>
-
     <div class="module-header">
       <h2>Agendamentos</h2>
       <!-- abre a modal sem JS, navegando para #agendamento-modal -->

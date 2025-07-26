@@ -10,7 +10,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String homePage(Model model) {
-        // redireciona para o dashboard, que por sua vez define activePage
         return "redirect:/dashboard";
     }
 

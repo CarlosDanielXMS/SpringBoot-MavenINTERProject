@@ -8,7 +8,7 @@ import com.inter.system.model.Profissional;
 import com.inter.system.repository.ProfissionalRepository;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class ProfissionalService {
 
     private final ProfissionalRepository repo;
@@ -21,16 +21,39 @@ public class ProfissionalService {
         return repo.findAll();
     }
 
+    public List<Profissional> listarAtivos() {
+        return repo.findByStatus((short)1);
+    }
+
     public Profissional buscarPorId(Integer id) {
         return repo.findById(id)
-                   .orElseThrow(() -> new IllegalArgumentException("Profissional não encontrado: " + id));
+            .orElseThrow(() -> new IllegalArgumentException("Profissional não encontrado: " + id));
     }
 
-    public Profissional salvar(Profissional profissional) {
-        return repo.save(profissional);
+    @Transactional
+    public Profissional criar(Profissional prof) {
+        prof.setStatus((short)1);
+        return repo.save(prof);
     }
 
-    public void excluir(Integer id) {
-        repo.deleteById(id);
+    @Transactional
+    public Profissional atualizar(Integer id, Profissional dados) {
+        Profissional existente = buscarPorId(id);
+        existente.setNome(dados.getNome());
+        existente.setTelefone(dados.getTelefone());
+        existente.setEmail(dados.getEmail());
+        existente.setSalarioFixo(dados.getSalarioFixo());
+        existente.setComissao(dados.getComissao());
+        if (dados.getSenha() != null && !dados.getSenha().isBlank()) {
+            existente.setSenha(dados.getSenha());
+        }
+        return repo.save(existente);
+    }
+
+    @Transactional
+    public void inativar(Integer id) {
+        Profissional existente = buscarPorId(id);
+        existente.setStatus((short)2);
+        repo.save(existente);
     }
 }
