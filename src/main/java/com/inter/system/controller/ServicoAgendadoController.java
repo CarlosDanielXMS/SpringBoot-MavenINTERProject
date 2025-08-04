@@ -2,7 +2,6 @@
 package com.inter.system.controller;
 
 import com.inter.system.model.ServicoAgendado;
-import com.inter.system.model.ServicoAgendadoId;
 import com.inter.system.service.AgendaService;
 import com.inter.system.service.ProfissionalService;
 import com.inter.system.service.ServicoAgendadoService;
@@ -40,17 +39,17 @@ public class ServicoAgendadoController {
         return "servicosAgendados";
     }
 
-    @PostMapping("/salvar")
-    public String salvar(@ModelAttribute("novoServicoAgendado") ServicoAgendado sa) {
-        service.salvar(sa);
-        return "redirect:/servicos-agendados";
-    }
+    // @PostMapping("/salvar")
+    // public String salvar(@ModelAttribute("novoServicoAgendado") ServicoAgendado sa) {
+    //     service.salvar(sa);
+    //     return "redirect:/servicos-agendados";
+    // }
 
-    @GetMapping("/excluir/{idAgenda}/{idServico}/{idProfissional}")
-    public String excluir(@PathVariable Integer idAgenda,
-                          @PathVariable Integer idServico,
-                          @PathVariable Integer idProfissional) {
-        service.excluir(new ServicoAgendadoId(idAgenda, idServico, idProfissional));
-        return "redirect:/servicos-agendados";
-    }
+    // @GetMapping("/excluir/{idAgenda}/{idServico}/{idProfissional}")
+    // public String excluir(@PathVariable Integer idAgenda,
+    //                       @PathVariable Integer idServico,
+    //                       @PathVariable Integer idProfissional) {
+    //     service.excluir(new ServicoAgendadoId(idAgenda, idServico, idProfissional));
+    //     return "redirect:/servicos-agendados";
+    // }
 }

@@ -43,8 +43,7 @@
                             <span class="material-icons">edit</span>
                         </a>
 
-                        <a th:href="@{/clientes/{id}/excluir(id=${c.id})}"
-                            class="btn-icon-only"
+                        <a th:href="@{/clientes/{id}/excluir(id=${c.id})}" class="btn-icon-only"
                             onclick="return confirm('Tem certeza que deseja excluir este cliente?');">
                             <span class="material-icons cancel">delete</span>
                         </a>
@@ -58,48 +57,38 @@
                 <h3 id="modal-title" th:text="${novoCliente.id} != null ? 'Editar Cliente' : 'Cadastrar Cliente'">
                     Cadastrar Cliente
                 </h3>
-                <form th:object="${novoCliente}"
-                      th:action="${novoCliente.id} != null
+                <form th:object="${novoCliente}" th:action="${novoCliente.id} != null
                                  ? @{/clientes/{id}(id=${novoCliente.id})}
-                                 : @{/clientes}"
-                      method="post">
-                      
-                    <input type="hidden"
-                           th:if="${novoCliente.id != null}"
-                           name="_method" value="put" />
+                                 : @{/clientes}" method="post">
+
+                    <input type="hidden" th:if="${novoCliente.id != null}" name="_method" value="put" />
 
                     <div class="form-group">
                         <label for="nome">Nome</label>
-                        <input id="nome" class="form-control" type="text"
-                               th:field="*{nome}"
-                               placeholder="Nome" required />
+                        <input id="nome" class="form-control" type="text" th:field="*{nome}" placeholder="Nome"
+                            required />
                     </div>
 
                     <div class="form-group">
                         <label for="telefone">Telefone</label>
-                        <input id="telefone" class="form-control" type="text"
-                               th:field="*{telefone}"
-                               placeholder="Telefone" required />
+                        <input id="telefone" class="form-control" type="text" th:field="*{telefone}"
+                            placeholder="Telefone" required />
                     </div>
 
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input id="email" class="form-control" type="email"
-                               th:field="*{email}"
-                               placeholder="Email" />
+                        <input id="email" class="form-control" type="email" th:field="*{email}" placeholder="Email" />
                     </div>
 
                     <div class="form-group" th:if="${novoCliente.id} == null">
                         <label for="senha">Senha</label>
-                        <input id="senha" class="form-control" type="password"
-                               th:field="*{senha}"
-                               placeholder="Senha" required />
+                        <input id="senha" class="form-control" type="password" th:field="*{senha}" placeholder="Senha"
+                            required />
                     </div>
 
                     <div class="form-group">
                         <label for="status">Status</label>
-                        <select id="status" class="form-control"
-                                th:field="*{status}">
+                        <select id="status" class="form-control" th:field="*{status}">
                             <option value="1">Ativo</option>
                             <option value="0">Inativo</option>
                         </select>

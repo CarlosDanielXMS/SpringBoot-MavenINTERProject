@@ -22,11 +22,10 @@ public class CatalogoController {
     private final ServicoService servService;
 
     public CatalogoController(
-        CatalogoService service,
-        ProfissionalService profService,
-        ServicoService servService
-    ) {
-        this.service     = service;
+            CatalogoService service,
+            ProfissionalService profService,
+            ServicoService servService) {
+        this.service = service;
         this.profService = profService;
         this.servService = servService;
     }
@@ -39,34 +38,37 @@ public class CatalogoController {
     @ModelAttribute
     public void addCommons(Model model) {
         model.addAttribute("profissionais", profService.listarAtivos());
-        model.addAttribute("servicos",      servService.listarAtivos());
+        model.addAttribute("servicos", servService.listarAtivos());
     }
 
     @GetMapping
     public String listar(Model model) {
-        model.addAttribute("catalogo",   service.listarAtivos());
+        model.addAttribute("catalogo", service.listarAtivos());
         model.addAttribute("novoCatalogo", new Catalogo());
         return "catalogo";
     }
 
     @GetMapping("/novo")
     public String formNovo(Model model) {
-        model.addAttribute("catalogo",    service.listarAtivos());
+        model.addAttribute("catalogo", service.listarAtivos());
         model.addAttribute("novoCatalogo", new Catalogo());
         return "catalogo";
     }
 
     @PostMapping
     public String criar(
-        @Valid @ModelAttribute("novoCatalogo") Catalogo catalogo,
-        BindingResult br,
-        RedirectAttributes flash,
-        Model model
-    ) {
+            @Valid @ModelAttribute("novoCatalogo") Catalogo catalogo,
+            BindingResult br,
+            RedirectAttributes flash,
+            Model model) {
         if (br.hasErrors()) {
             model.addAttribute("catalogo", service.listarAtivos());
+            flash.addFlashAttribute("mensagem", "Erro ao criar novo item no Catálogo");
             return "catalogo";
         }
+        catalogo.setProfissional(profService.buscarPorId(catalogo.getProfissional().getId()));
+        catalogo.setServico(servService.buscarPorId(catalogo.getServico().getId()));
+
         service.criar(catalogo);
         flash.addFlashAttribute("mensagem", "Catálogo criado com sucesso!");
         return "redirect:/catalogo";
@@ -74,24 +76,22 @@ public class CatalogoController {
 
     @GetMapping("/{idProfissional}/{idServico}/editar")
     public String formEditar(
-        @PathVariable Integer idProfissional,
-        @PathVariable Integer idServico,
-        Model model
-    ) {
-        model.addAttribute("catalogo",    service.listarAtivos());
+            @PathVariable Integer idProfissional,
+            @PathVariable Integer idServico,
+            Model model) {
+        model.addAttribute("catalogo", service.listarAtivos());
         model.addAttribute("novoCatalogo", service.buscarPorId(idProfissional, idServico));
         return "catalogo";
     }
 
     @PutMapping("/{idProfissional}/{idServico}")
     public String atualizar(
-        @PathVariable Integer idProfissional,
-        @PathVariable Integer idServico,
-        @Valid @ModelAttribute("novoCatalogo") Catalogo catalogo,
-        BindingResult br,
-        Model model,
-        RedirectAttributes flash
-    ) {
+            @PathVariable Integer idProfissional,
+            @PathVariable Integer idServico,
+            @Valid @ModelAttribute("novoCatalogo") Catalogo catalogo,
+            BindingResult br,
+            Model model,
+            RedirectAttributes flash) {
         if (br.hasErrors()) {
             model.addAttribute("catalogo", service.listarAtivos());
             return "catalogo";
@@ -103,10 +103,9 @@ public class CatalogoController {
 
     @GetMapping("/{idProfissional}/{idServico}/excluir")
     public String excluir(
-        @PathVariable Integer idProfissional,
-        @PathVariable Integer idServico,
-        RedirectAttributes flash
-    ) {
+            @PathVariable Integer idProfissional,
+            @PathVariable Integer idServico,
+            RedirectAttributes flash) {
         service.inativar(idProfissional, idServico);
         flash.addFlashAttribute("mensagem", "Catálogo inativado com sucesso!");
         return "redirect:/catalogo";

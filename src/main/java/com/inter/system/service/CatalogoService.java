@@ -17,25 +17,27 @@ public class CatalogoService {
     public CatalogoService(CatalogoRepository repo) {
         this.repo = repo;
     }
-    
+
     public List<Catalogo> listarTodos() {
         return repo.findAll();
     }
 
     public List<Catalogo> listarAtivos() {
-        return repo.findByStatus((short)1);
+        return repo.findByStatus((short) 1);
     }
 
     public Catalogo buscarPorId(Integer idProfissional, Integer idServico) {
         return repo.findById(new CatalogoId(idProfissional, idServico))
-                   .orElseThrow(() -> new IllegalArgumentException(
-                       "Catálogo não encontrado: " + idProfissional + ", " + idServico
-                   ));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Catálogo não encontrado: " + idProfissional + ", " + idServico));
     }
 
     @Transactional
     public Catalogo criar(Catalogo catalogo) {
-        catalogo.setStatus((short)1);
+        catalogo.setId(new CatalogoId(
+                catalogo.getProfissional().getId(),
+                catalogo.getServico().getId()));
+        catalogo.setStatus((short) 1);
         return repo.save(catalogo);
     }
 
@@ -50,7 +52,7 @@ public class CatalogoService {
     @Transactional
     public void inativar(Integer idProf, Integer idServ) {
         Catalogo existente = buscarPorId(idProf, idServ);
-        existente.setStatus((short)2);
+        existente.setStatus((short) 2);
         repo.save(existente);
     }
 }

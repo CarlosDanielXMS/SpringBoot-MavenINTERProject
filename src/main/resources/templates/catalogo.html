@@ -31,14 +31,15 @@
                     <td th:text="${cat.valor}">-</td>
                     <td th:text="${cat.tempoMedio}">-</td>
                     <td class="actions">
-                        <a class="btn-icon-only" th:href="@{/clientes/{id}/editar(id=${cat.id})} + '#catalogo-modal'"
+                        <a class="btn-icon-only"
+                            th:href="@{/catalogo/{idProfissional}/{idServico}/editar(idProfissional=${cat.profissional.id}, idServico=${cat.servico.id})} + '#catalogo-modal'"
                             title="Editar">
                             <span class="material-icons">edit</span>
                         </a>
 
-                        <a th:href="@{/clientes/{id}/excluir(id=${cat.id})}"
+                        <a th:href="@{/catalogo/{idProfissional}/{idServico}/excluir(idProfissional=${cat.profissional.id}, idServico=${cat.servico.id})}"
                             class="btn-icon-only"
-                            onclick="return confirm('Tem certeza que deseja excluir este cliente?');">
+                            onclick="return confirm('Tem certeza que deseja excluir este item?');">
                             <span class="material-icons cancel">delete</span>
                         </a>
                     </td>
@@ -51,48 +52,42 @@
                 <h3 id="modal-title" th:text="${novoCatalogo.id} != null ? 'Editar Item' : 'Cadastrar Item'">
                     Cadastrar Item
                 </h3>
-                <form th:object="${novoCatalogo}"
-                      th:action="${novoCatalogo.id} != null
-                                 ? @{/catalogo/{id}(id=${novoCatalogo.id})}
-                                 : @{/catalogo}"
-                      method="post">
-                      
-                    <input type="hidden"
-                           th:if="${novoCatalogo.id != null}"
-                           name="_method" value="put" />
+                <form th:object="${novoCatalogo}" th:action="${novoCatalogo.id} != null
+                        ? @{/catalogo/{idProfissional}/{idServico}(
+                        idProfissional=${novoCatalogo.id.idProfissional},
+                        idServico=${novoCatalogo.id.idServico})}
+                        : @{/catalogo}" method="post">
+
+                    <input type="hidden" th:if="${novoCatalogo.id != null}" name="_method" value="put" />
+
+                    <input type="hidden" name="status" value="1" />
 
                     <div class="form-group">
                         <label for="profissional">Profissional</label>
-                        <select id="profissional" class="form-control"
-                                th:field="*{profissional}">
-                            <option th:each="prof : ${profissionais}"
-                                    th:value="${prof}"
-                                    th:text="${prof.nome}">Profissional</option>
+                        <select id="profissional" class="form-control" th:field="*{profissional.id}">
+                            <option th:each="prof : ${profissionais}" th:value="${prof.id}" th:text="${prof.nome}">
+                                Profissional</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label for="servico">Serviço</label>
-                        <select id="servico" class="form-control"
-                                th:field="*{servico}">
-                            <option th:each="serv : ${servicos}"
-                                    th:value="${serv}"
-                                    th:text="${serv.descricao}">Serviço</option>
+                        <select id="servico" class="form-control" th:field="*{servico.id}">
+                            <option th:each="serv : ${servicos}" th:value="${serv.id}" th:text="${serv.descricao}">
+                                Serviço</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label for="valor">Valor</label>
-                        <input id="valor" class="form-control" type="number"
-                               step="0.01" th:field="*{valor}"
-                               placeholder="Valor" required />
+                        <input id="valor" class="form-control" type="number" step="0.01" th:field="*{valor}"
+                            placeholder="Valor" required />
                     </div>
 
                     <div class="form-group">
                         <label for="tempoMedio">Tempo Médio</label>
-                        <input id="tempoMedio" class="form-control" type="number"
-                               th:field="*{tempoMedio}"
-                               placeholder="Tempo Médio (min)" required />
+                        <input id="tempoMedio" class="form-control" type="number" th:field="*{tempoMedio}"
+                            placeholder="Tempo Médio (min)" required />
                     </div>
 
                     <div class="form-actions">
@@ -104,4 +99,5 @@
         </div>
     </section>
 </body>
+
 </html>

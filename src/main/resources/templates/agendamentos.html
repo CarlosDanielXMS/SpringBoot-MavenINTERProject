@@ -1,18 +1,17 @@
 <!-- src/main/resources/templates/agendamentos.html -->
 <!DOCTYPE html>
-<html lang="pt-BR"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{base}">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{base}">
+
 <head>
-    <title>Agendamentos</title>
+  <title>Agendamentos</title>
 </head>
+
 <body>
   <div layout:fragment="content">
 
     <div class="module-header">
       <h2>Agendamentos</h2>
-      <!-- abre a modal sem JS, navegando para #agendamento-modal -->
       <a href="#agendamento-modal" class="btn btn-primary" id="add-agenda-btn">
         <span class="material-icons">add</span> Nova Agenda
       </a>
@@ -32,70 +31,70 @@
     </div>
 
     <div class="calendar-grid-container">
-      <div class="time-column"></div>
-      <div class="calendar-main-grid" id="calendar-main-grid"></div>
-    </div>
-
-    <!-- modal acionada pelo fragmento #agendamento-modal -->
-    <div id="agendamento-modal" class="modal">
-      <div class="modal-content">
-        <!-- link simples para "#" fecha a modal -->
-        <a href="#" class="close-button">&times;</a>
-        <h3>Agendar Serviço</h3>
-        <form method="post" id="agendamento-form">
-          <input type="hidden" name="agendaId" id="agendamento-agenda-id" />
-          <input type="hidden" name="servicoAgendadoId" id="agendamento-servico-agendado-id" />
-
-          <div class="form-group">
-            <label for="agendamento-cliente">Cliente</label>
-            <select name="clienteId" id="agendamento-cliente" required>
-              <option value="" disabled selected>Selecione um cliente</option>
-              <option></option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="agendamento-data">Data</label>
-            <input type="date" name="data" id="agendamento-data" required />
-          </div>
-
-          <div class="form-group">
-            <label for="agendamento-hora">Hora</label>
-            <input type="time" name="hora" id="agendamento-hora" required />
-          </div>
-
-          <div class="form-group">
-            <label for="agendamento-servico">Serviço</label>
-            <select name="servicoId" id="agendamento-servico" required>
-              <option value="" disabled selected>Selecione um serviço</option>
-              <option ></option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="agendamento-profissional">Profissional Disponível</label>
-            <select name="profissionalId" id="agendamento-profissional">
-              <option value="" disabled selected>Selecione um profissional</option>
-              <option></option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="agendamento-status">Status</label>
-            <select name="status" id="agendamento-status">
-              <option value="1">Ativo</option>
-              <option value="0">Cancelado</option>
-            </select>
-          </div>
-
-          <div class="form-actions">
-            <a href="#" class="btn btn-outline">Cancelar</a>
-            <button type="submit" class="btn btn-primary">Salvar Agendamento</button>
-          </div>
-        </form>
+      <div class="time-column">
+      </div>
+      <div class="calendar-main-grid" id="calendar-main-grid">
       </div>
     </div>
+  </div>
 
+  <div id="agendamento-modal" class="modal">
+    <div class="modal-content">
+      <a href="#" class="close-button">&times;</a>
+      <h3>Agendar Serviço</h3>
+      <form method="post" id="agendamento-form">
+        <input type="hidden" name="agendaId" id="agendamento-agenda-id" />
+        <input type="hidden" name="servicoAgendadoId" id="agendamento-servico-agendado-id" />
+
+        <div class="form-group">
+          <label for="agendamento-cliente">Cliente</label>
+          <select name="clienteId" id="agendamento-cliente" required>
+            <option value="" disabled selected>Selecione um cliente</option>
+            <option></option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="agendamento-data">Data</label>
+          <input type="date" name="data" id="agendamento-data" required />
+        </div>
+
+        <div class="form-group">
+          <label for="agendamento-hora">Hora</label>
+          <input type="time" name="hora" id="agendamento-hora" required />
+        </div>
+
+        <div class="form-group">
+          <label for="agendamento-servico">Serviço</label>
+          <select name="servicoId" id="agendamento-servico" required>
+            <option value="" disabled selected>Selecione um serviço</option>
+            <option></option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="agendamento-profissional">Profissional Disponível</label>
+          <select name="profissionalId" id="agendamento-profissional">
+            <option value="" disabled selected>Selecione um profissional</option>
+            <option></option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="agendamento-status">Status</label>
+          <select name="status" id="agendamento-status">
+            <option value="1">Ativo</option>
+            <option value="0">Cancelado</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <a href="#" class="btn btn-outline">Cancelar</a>
+          <button type="submit" class="btn btn-primary">Salvar Agendamento</button>
+        </div>
+      </form>
+    </div>
   </div>
 </body>
+
 </html>
