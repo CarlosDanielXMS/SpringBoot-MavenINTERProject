@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 
+
 @Entity
 @Table(name = "Servico_Agendado")
 public class ServicoAgendado {

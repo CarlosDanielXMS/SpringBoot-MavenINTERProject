@@ -95,6 +95,24 @@
       </form>
     </div>
   </div>
+  <script th:inline="javascript">
+/*<![CDATA[*/
+const agendas = /*[[${agendasJson}]]*/ [];
+const clientes = /*[[${clientesJson}]]*/ [];
+const servicos = /*[[${servicosJson}]]*/ [];
+const profissionais = /*[[${profissionaisJson}]]*/ [];
+const servicosAgendados = /*[[${servicosAgendadosJson}]]*/ [];
+
+console.log("DEBUG agendas:", agendas);
+console.log("DEBUG clientes:", clientes);
+console.log("DEBUG servicos:", servicos);
+console.log("DEBUG profissionais:", profissionais);
+console.log("DEBUG servicosAgendados:", servicosAgendados);
+/*]]>*/
+</script>
+
+
+
 </body>
 
 </html>

@@ -4,6 +4,7 @@ package com.inter.system.model;
 import jakarta.persistence.*;
 import java.util.List;
 
+
 @Entity
 @Table(name = "Cliente")
 public class Cliente extends Usuario {

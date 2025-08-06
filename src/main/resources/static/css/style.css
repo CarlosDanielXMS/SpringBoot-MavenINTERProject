@@ -685,8 +685,6 @@ body {
 .calendar-grid-cell:nth-child(7n) {
     border-right: none;
 }
-.calendar-grid-cell:nth-child(even) {
-}
 
 
 .appointment-card {
