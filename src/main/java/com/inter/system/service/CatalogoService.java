@@ -1,4 +1,3 @@
-// src/main/java/com/inter/system/service/CatalogoService.java
 package com.inter.system.service;
 
 import java.util.List;

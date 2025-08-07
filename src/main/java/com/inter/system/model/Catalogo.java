@@ -1,9 +1,15 @@
-// src/main/java/com/inter/system/model/Catalogo.java
 package com.inter.system.model;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+@JsonIdentityInfo(
+    generator = ObjectIdGenerators.PropertyGenerator.class,
+    property = "id"
+)
 @Entity
 @Table(name = "Catalogo")
 public class Catalogo {

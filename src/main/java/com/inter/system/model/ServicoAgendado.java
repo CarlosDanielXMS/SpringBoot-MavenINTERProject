@@ -1,11 +1,16 @@
-// src/main/java/com/inter/system/model/ServicoAgendado.java
 package com.inter.system.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+@JsonIdentityInfo(
+    generator = ObjectIdGenerators.PropertyGenerator.class,
+    property = "id"
+)
 @Entity
 @Table(name = "Servico_Agendado")
 public class ServicoAgendado {

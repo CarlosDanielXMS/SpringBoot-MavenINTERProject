@@ -1,4 +1,3 @@
-// src/main/java/com/inter/system/model/CatalogoId.java
 package com.inter.system.model;
 
 import jakarta.persistence.Embeddable;

@@ -1,4 +1,3 @@
-// src/main/java/com/inter/system/controller/CatalogoController.java
 package com.inter.system.controller;
 
 import com.inter.system.model.Catalogo;

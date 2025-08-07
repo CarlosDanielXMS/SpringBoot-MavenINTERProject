@@ -1,4 +1,3 @@
-// src/main/java/com/inter/system/model/Servico.java
 package com.inter.system.model;
 
 import jakarta.persistence.*;
@@ -6,6 +5,13 @@ import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+@JsonIdentityInfo(
+    generator = ObjectIdGenerators.PropertyGenerator.class,
+    property = "id"
+)
 @Entity
 @Table(name = "Servico")
 public class Servico {

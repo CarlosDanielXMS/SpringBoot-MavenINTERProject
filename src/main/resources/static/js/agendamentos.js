@@ -1,4 +1,3 @@
-// src/main/resources/static/js/agenda.js
 document.addEventListener("DOMContentLoaded", () => {
   const timeColumn = document.querySelector(".time-column");
   const calendarGrid = document.getElementById("calendar-main-grid");
@@ -7,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentView = "week";
   let currentDate = new Date();
 
-  // === Helpers ===
   function formatDate(date) {
     return date.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
   }
@@ -37,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  // === Renderização da grade ===
   function renderCalendar() {
     calendarGrid.innerHTML = "";
     timeColumn.innerHTML = "";
@@ -46,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const endHour = 18;
     const intervalMinutes = 30;
 
-    // Coluna lateral de horários
     for (let h = startHour; h < endHour; h++) {
       for (let m = 0; m < 60; m += intervalMinutes) {
         const div = document.createElement("div");
@@ -64,7 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       currentPeriodDisplay.textContent = `${formatDate(startWeek)} - ${formatDate(endWeek)}`;
 
-      // Cabeçalho da semana
       const corner = document.createElement("div");
       corner.classList.add("grid-header-corner");
       calendarGrid.appendChild(corner);
@@ -85,7 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       currentPeriodDisplay.textContent = formatDate(currentDate);
 
-      // Cabeçalho por profissional
       const corner = document.createElement("div");
       corner.classList.add("grid-header-corner");
       calendarGrid.appendChild(corner);
@@ -101,7 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
       daysToDisplay.push(currentDate);
     }
 
-    // Células
     const numColumns = currentView === "week" ? 7 : profissionais.length;
     const totalSlots = (endHour - startHour) * (60 / intervalMinutes);
 
@@ -128,7 +121,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    // ==== Renderizar agendamentos reais ====
     servicosAgendados.forEach((sa) => {
       const agenda = agendas.find((a) => a.id === sa.agenda.id);
       if (!agenda) return;
@@ -187,7 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return -1;
   }
 
-  // === Botões de navegação ===
   document.getElementById("prev-week-btn").addEventListener("click", () => {
     currentDate.setDate(currentDate.getDate() + (currentView === "week" ? -7 : -1));
     renderCalendar();
@@ -217,6 +208,5 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCalendar();
   });
 
-  // === Inicializa ===
   renderCalendar();
 });

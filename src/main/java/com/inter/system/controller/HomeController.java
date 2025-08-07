@@ -1,4 +1,3 @@
-// src/main/java/com/inter/system/controller/HomeController.java
 package com.inter.system.controller;
 
 import org.springframework.stereotype.Controller;

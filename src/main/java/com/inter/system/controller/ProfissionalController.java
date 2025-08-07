@@ -1,4 +1,3 @@
-// src/main/java/com/inter/system/controller/ProfissionalController.java
 package com.inter.system.controller;
 
 import com.inter.system.model.Profissional;

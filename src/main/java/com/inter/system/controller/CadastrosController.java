@@ -1,4 +1,3 @@
-// src/main/java/com/inter/system/controller/ClienteController.java
 package com.inter.system.controller;
 
 import com.inter.system.model.Cliente;

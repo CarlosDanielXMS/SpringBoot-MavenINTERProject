@@ -1,10 +1,16 @@
-// src/main/java/com/inter/system/model/Usuario.java
 package com.inter.system.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+@JsonIdentityInfo(
+    generator = ObjectIdGenerators.PropertyGenerator.class,
+    property = "id"
+)
 @MappedSuperclass
 public abstract class Usuario implements Serializable {
 

@@ -1,4 +1,3 @@
-// src/main/java/com/inter/system/model/ServicoAgendadoId.java
 package com.inter.system.model;
 
 import jakarta.persistence.Embeddable;
