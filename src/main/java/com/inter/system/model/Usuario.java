@@ -4,13 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@JsonIdentityInfo(
-    generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "id"
-)
 @MappedSuperclass
 public abstract class Usuario implements Serializable {
 
@@ -32,6 +27,7 @@ public abstract class Usuario implements Serializable {
 
     @Size(min = 8)
     @Column(nullable = false, length = 60)
+    @JsonIgnore
     private String senha;
 
     @NotNull

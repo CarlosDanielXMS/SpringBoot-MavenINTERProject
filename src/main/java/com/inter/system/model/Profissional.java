@@ -5,14 +5,12 @@ import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-@JsonIdentityInfo(
-    generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "id"
-)
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "Profissional")
 public class Profissional extends Usuario {
 
@@ -25,9 +23,11 @@ public class Profissional extends Usuario {
     private BigDecimal comissao;
 
     @OneToMany(mappedBy = "profissional", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference("profissional-servicosAgendados")
     private List<ServicoAgendado> servicosAgendados;
 
     @OneToMany(mappedBy = "profissional", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("profissional-catalogos")
     private List<Catalogo> catalogos;
 
     public BigDecimal getSalarioFixo() { return salarioFixo; }

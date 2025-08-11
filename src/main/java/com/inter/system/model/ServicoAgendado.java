@@ -4,14 +4,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-@JsonIdentityInfo(
-    generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "id"
-)
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "Servico_Agendado")
 public class ServicoAgendado {
 
@@ -21,16 +19,19 @@ public class ServicoAgendado {
     @MapsId("idAgenda")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idAgenda", nullable = false)
+    @JsonBackReference("agenda-servicosAgendados")
     private Agenda agenda;
 
     @MapsId("idServico")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idServico", nullable = false)
+    @JsonManagedReference("servico-servicosAgendados")
     private Servico servico;
 
     @MapsId("idProfissional")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idProfissional", nullable = false)
+    @JsonManagedReference("profissional-servicosAgendados")
     private Profissional profissional;
 
     @NotNull

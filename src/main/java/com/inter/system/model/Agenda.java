@@ -2,18 +2,16 @@ package com.inter.system.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-@JsonIdentityInfo(
-    generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "id"
-)
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "Agenda")
 public class Agenda {
 
@@ -24,6 +22,7 @@ public class Agenda {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idCliente", nullable = false)
+    @JsonManagedReference("cliente-agendas")
     private Cliente cliente;
 
     @NotNull
@@ -46,6 +45,7 @@ public class Agenda {
     private Short status;
 
     @OneToMany(mappedBy = "agenda", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("agenda-servicosAgendados")
     private List<ServicoAgendado> servicosAgendados;
 
     public Integer getId() { return id; }

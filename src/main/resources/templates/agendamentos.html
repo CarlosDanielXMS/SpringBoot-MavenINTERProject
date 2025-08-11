@@ -1,117 +1,109 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{base}">
-
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{base}">
 <head>
+  <meta charset="UTF-8" />
   <title>Agendamentos</title>
 </head>
-
 <body>
-  <div layout:fragment="content">
+<div layout:fragment="content">
 
-    <div class="module-header">
-      <h2>Agendamentos</h2>
-      <a href="#agendamento-modal" class="btn btn-primary" id="add-agenda-btn">
-        <span class="material-icons">add</span> Nova Agenda
-      </a>
+  <div class="module-header">
+    <h2>Agendamentos</h2>
+    <button class="btn btn-primary" id="add-agenda-btn">
+      <span class="material-icons">add</span> Novo Agendamento
+    </button>
+  </div>
+
+  <div class="calendar-toolbar">
+    <div class="date-navigation">
+      <button class="btn-icon-only" id="prev-week-btn"><span class="material-icons">chevron_left</span></button>
+      <button class="btn btn-outline" id="today-btn">Hoje</button>
+      <button class="btn-icon-only" id="next-week-btn"><span class="material-icons">chevron_right</span></button>
+      <span id="current-period-display" class="current-period"></span>
     </div>
-
-    <div class="calendar-toolbar">
-      <div class="date-navigation">
-        <button class="btn-icon-only" id="prev-week-btn"><span class="material-icons">chevron_left</span></button>
-        <button class="btn btn-outline" id="today-btn">Hoje</button>
-        <button class="btn-icon-only" id="next-week-btn"><span class="material-icons">chevron_right</span></button>
-        <span id="current-period-display" class="current-period"></span>
-      </div>
-      <div class="view-switcher">
-        <button class="btn btn-outline active" id="week-view-btn">Semana</button>
-        <button class="btn btn-outline" id="day-view-btn">Dia</button>
-      </div>
-    </div>
-
-    <div class="calendar-grid-container">
-      <div class="time-column">
-      </div>
-      <div class="calendar-main-grid" id="calendar-main-grid">
-      </div>
+    <div class="view-switcher">
+      <button class="btn btn-outline active" id="week-view-btn">Semana</button>
+      <button class="btn btn-outline" id="day-view-btn">Dia</button>
     </div>
   </div>
 
-  <div id="agendamento-modal" class="modal">
+  <div class="calendar-grid-container">
+    <div class="time-column"></div>
+    <div class="calendar-main-grid" id="calendar-main-grid"></div>
+  </div>
+
+  <!-- ===== Modal (layout do protótipo) ===== -->
+  <div id="agendamento-modal" class="modal" style="display:none;">
     <div class="modal-content">
-      <a href="#" class="close-button">&times;</a>
-      <h3>Agendar Serviço</h3>
-      <form method="post" id="agendamento-form">
-        <input type="hidden" name="agendaId" id="agendamento-agenda-id" />
-        <input type="hidden" name="servicoAgendadoId" id="agendamento-servico-agendado-id" />
+      <span class="close-button" id="modal-close">&times;</span>
+      <h3 id="modal-title">Agendar Serviço</h3>
+
+      <form id="agendamento-form">
+        <input type="hidden" id="agenda-id" />
+        <input type="hidden" id="agenda-valor-hidden" />
+        <input type="hidden" id="agenda-duracao-hidden" />
 
         <div class="form-group">
           <label for="agendamento-cliente">Cliente</label>
-          <select name="clienteId" id="agendamento-cliente" required>
-            <option value="" disabled selected>Selecione um cliente</option>
-            <option></option>
+          <select id="agendamento-cliente" required>
+            <option value="">Selecione um cliente</option>
           </select>
-        </div>
-
-        <div class="form-group">
-          <label for="agendamento-data">Data</label>
-          <input type="date" name="data" id="agendamento-data" required />
-        </div>
-
-        <div class="form-group">
-          <label for="agendamento-hora">Hora</label>
-          <input type="time" name="hora" id="agendamento-hora" required />
         </div>
 
         <div class="form-group">
           <label for="agendamento-servico">Serviço</label>
-          <select name="servicoId" id="agendamento-servico" required>
-            <option value="" disabled selected>Selecione um serviço</option>
-            <option></option>
+          <select id="agendamento-servico" required>
+            <option value="">Selecione um serviço</option>
           </select>
+          <small id="servico-info" class="subtle-text"></small>
         </div>
 
         <div class="form-group">
           <label for="agendamento-profissional">Profissional Disponível</label>
-          <select name="profissionalId" id="agendamento-profissional">
-            <option value="" disabled selected>Selecione um profissional</option>
-            <option></option>
+          <select id="agendamento-profissional" required>
+            <option value="">Selecione um profissional</option>
           </select>
+        </div>
+
+        <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group">
+            <label for="agendamento-data">Data</label>
+            <input type="date" id="agendamento-data" required />
+          </div>
+          <div class="form-group">
+            <label for="agendamento-hora">Hora</label>
+            <input type="time" id="agendamento-hora" required />
+          </div>
         </div>
 
         <div class="form-group">
           <label for="agendamento-status">Status</label>
-          <select name="status" id="agendamento-status">
+          <select id="agendamento-status" required>
             <option value="1">Ativo</option>
-            <option value="0">Cancelado</option>
+            <option value="2">Inativo</option>
           </select>
         </div>
 
         <div class="form-actions">
-          <a href="#" class="btn btn-outline">Cancelar</a>
-          <button type="submit" class="btn btn-primary">Salvar Agendamento</button>
+          <button type="button" class="btn btn-outline" id="modal-inativar" style="display:none;">Inativar</button>
+          <button type="button" class="btn btn-outline" id="modal-cancelar">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar</button>
         </div>
       </form>
     </div>
   </div>
-  <script th:inline="javascript">
-/*<![CDATA[*/
-const agendas = /*[[${agendasJson}]]*/ [];
-const clientes = /*[[${clientesJson}]]*/ [];
-const servicos = /*[[${servicosJson}]]*/ [];
-const profissionais = /*[[${profissionaisJson}]]*/ [];
-const servicosAgendados = /*[[${servicosAgendadosJson}]]*/ [];
 
-console.log("DEBUG agendas:", agendas);
-console.log("DEBUG clientes:", clientes);
-console.log("DEBUG servicos:", servicos);
-console.log("DEBUG profissionais:", profissionais);
-console.log("DEBUG servicosAgendados:", servicosAgendados);
-/*]]>*/
-</script>
+  <!-- ===== Dados vindos do Controller (JSON puro) =====
+       IMPORTANTÍSSIMO: usamos th:utext para NÃO escapar aspas -->
+  <script type="application/json" id="clientes-data"     th:utext="${clientesJson}">[]</script>
+  <script type="application/json" id="servicos-data"     th:utext="${servicosJson}">[]</script>
+  <script type="application/json" id="profissionais-data" th:utext="${profissionaisJson}">[]</script>
 
-
-
+  <!-- JS da página -->
+  <script th:src="@{/js/agendamentos.js}" defer></script>
+</div>
 </body>
-
 </html>

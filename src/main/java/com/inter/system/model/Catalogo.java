@@ -1,16 +1,14 @@
 package com.inter.system.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
-@JsonIdentityInfo(
-    generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "id"
-)
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "Catalogo")
 public class Catalogo {
 
@@ -20,11 +18,13 @@ public class Catalogo {
     @MapsId("idProfissional")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idProfissional", nullable = false)
+    @JsonBackReference("profissional-catalogos")
     private Profissional profissional;
 
     @MapsId("idServico")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idServico", nullable = false)
+    @JsonManagedReference("servico-catalogos")
     private Servico servico;
 
     @DecimalMin("0.01")

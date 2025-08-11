@@ -5,14 +5,11 @@ import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIdentityInfo(
-    generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "id"
-)
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "Servico")
 public class Servico {
 
@@ -40,9 +37,11 @@ public class Servico {
     private Short status;
 
     @OneToMany(mappedBy = "servico", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference("servico-servicosAgendados")
     private List<ServicoAgendado> servicosAgendados;
 
     @OneToMany(mappedBy = "servico", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference("servico-catalogos")
     private List<Catalogo> catalogos;
 
     public Integer getId() { return id; }

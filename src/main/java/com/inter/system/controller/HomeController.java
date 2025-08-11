@@ -9,7 +9,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String homePage(Model model) {
-        return "redirect:/dashboard";
+        return "redirect:/agendamentos";
     }
 
     @GetMapping("/dashboard")
